@@ -29,6 +29,17 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 	public function install()
 	{
 		$this->setVars($this->getDefaultModVars());
+		
+		//Install databases
+		try {
+			DoctrineHelper::createSchema($this->entityManager, array(
+				'ImageUploader_Entity_Images'
+			));
+		} catch (Exception $e) {
+			echo $e;
+			return false;
+		}
+		
 		// Initialisation successful
 		return true;
 	}
@@ -43,7 +54,7 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 	 */
 	public function upgrade($oldversion)
 	{
-	return true;
+		return true;
 	}
 
 	/**
@@ -56,6 +67,12 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 	{
 		//Remove all ModVars
 		$this->delVars();
+		
+		//Remove all databases
+		DoctrineHelper::dropSchema($this->entityManager, array(
+			'ImageUploader_Entity_Images'
+		));
+		
 		return true;
 	}
 }
