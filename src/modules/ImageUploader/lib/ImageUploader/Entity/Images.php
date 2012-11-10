@@ -26,7 +26,7 @@ class ImageUploader_Entity_Images extends Zikula_EntityAccess
 	/**
 	 * The following are annotations which define the id field.
 	 *
-	 * @ORM\Column(type="title")
+	 * @ORM\Column(type="string", length="255")
 	 */
 	private $title;
 
@@ -40,9 +40,30 @@ class ImageUploader_Entity_Images extends Zikula_EntityAccess
 	/**
 	 * The following are annotations which define the openly field.
 	 *
-	 * @ORM\Column(type="bool")
+	 * @ORM\Column(type="boolean")
 	 */
 	private $openly;
+
+	/**
+	 * The following are annotations which define the fileextension field.
+	 *
+	 * @ORM\Column(type="string", length="13")
+	 */
+	private $fileextension;
+
+	/**
+	 * The following are annotations which define the height field.
+	 *
+	 * @ORM\Column(type="integer")
+	 */
+	private $height;
+
+	/**
+	 * The following are annotations which define the width field.
+	 *
+	 * @ORM\Column(type="integer")
+	 */
+	private $width;
 
 	/**
 	 * The following are annotations which define the config field.
@@ -71,6 +92,21 @@ class ImageUploader_Entity_Images extends Zikula_EntityAccess
 		return $this->openly;
 	}
 
+	public function getFileextension()
+	{
+		return $this->fileextension;
+	}
+
+	public function getHeight()
+	{
+		return $this->height;
+	}
+
+	public function getWidth()
+	{
+		return $this->width;
+	}
+
 	public function getConfig()
 	{
 		return $this->config;
@@ -81,9 +117,29 @@ class ImageUploader_Entity_Images extends Zikula_EntityAccess
 		$this->uid = $uid;
 	}
 
+	public function setTitle($title)
+	{
+		$this->title = $title;
+	}
+
 	public function setOpenly($openly)
 	{
 		$this->openly = $openly;
+	}
+
+	public function setFileextension($fe)
+	{
+		$this->fileextension = $fe;
+	}
+
+	public function setHeight($height)
+	{
+		$this->height = $height;
+	}
+
+	public function setWidth($width)
+	{
+		$this->width = $width;
 	}
 
 	public function setConfig($config)

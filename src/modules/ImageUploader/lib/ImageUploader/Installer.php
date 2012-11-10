@@ -17,7 +17,7 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 	 */
 	protected function getDefaultModVars()
 	{
-		return array();
+		return array('storePath' => 'userdata/ImageUploader/');
 	}
 
 	/**

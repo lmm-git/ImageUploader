@@ -9,12 +9,11 @@
 class ImageUploader_Api_Admin extends Zikula_AbstractApi
 {
 	/**
-	 * Get admin panel links.
-	 *
-	 * @return array Array of admin links.
-	 *
-	 * @todo Icon für About finden
-	 */
+	* @brief Getting links for adminpanel
+	*
+	* @author Leonard Marschke
+	* @version 1.0
+	*/
 	public function getlinks()
 	{
 		$links = array ();
