@@ -34,7 +34,8 @@ class ImageUploader_Controller_Ajax extends Zikula_AbstractController
 		   ->where('p.uid != ' . UserUtil::getVar('uid'));
 		$images2 = $qb->getQuery()->getArrayResult();
 		
-		$this->view->assign('images', array_merge($images1, $images2));
+		$this->view->assign('images', array_merge($images1, $images2))
+			->assign('mode', FormUtil::getPassedValue('mode', null, 'GET'));
 		
 		return new Zikula_Response_Ajax($this->view->fetch('Ajax/ViewPictures.tpl'));
 	}

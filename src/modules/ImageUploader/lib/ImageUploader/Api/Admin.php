@@ -30,6 +30,18 @@ class ImageUploader_Api_Admin extends Zikula_AbstractApi
 			'class'=> 'z-icon-es-new'
 		);
 
+		$links[] = array (
+			'url'  => ModUtil::url('ImageUploader', 'admin', 'viewFields'),
+			'text' => $this->__('View active Fields'),
+			'class'=> 'z-icon-es-view'
+		);
+
+		$links[] = array (
+			'url'  => ModUtil::url('ImageUploader', 'admin', 'addField'),
+			'text' => $this->__('Add field'),
+			'class'=> 'z-icon-es-new'
+		);
+
 		return $links;
 	}
 }

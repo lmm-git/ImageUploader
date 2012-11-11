@@ -17,7 +17,8 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 	 */
 	protected function getDefaultModVars()
 	{
-		return array('storePath' => 'userdata/ImageUploader/');
+		return array('storePath' => 'userdata/ImageUploader/',
+			'imageWidth' => 250);
 	}
 
 	/**
@@ -39,6 +40,23 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 			echo $e;
 			return false;
 		}
+		try {
+			DoctrineHelper::createSchema($this->entityManager, array(
+				'ImageUploader_Entity_Fields'
+			));
+		} catch (Exception $e) {
+			echo $e;
+			return false;
+		}
+		
+		EventUtil::registerPersistentModuleHandler(
+			'ImageUploader',
+			'core.postinit',
+			array('ImageUploader_Listeners', 'coreinit')
+		);
+
+		// create hook
+		HookUtil::registerProviderBundles($this->version->getHookProviderBundles());
 		
 		// Initialisation successful
 		return true;
@@ -72,6 +90,8 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 		DoctrineHelper::dropSchema($this->entityManager, array(
 			'ImageUploader_Entity_Images'
 		));
+		
+		HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles());
 		
 		return true;
 	}

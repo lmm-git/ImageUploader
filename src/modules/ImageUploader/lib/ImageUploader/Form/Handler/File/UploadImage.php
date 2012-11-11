@@ -11,7 +11,7 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 	 */
 	function initialize(Zikula_Form_View $view)
 	{
-		$this->view->caching = true;
+		$this->view->caching = false;
 	}
 	
 	
@@ -73,7 +73,10 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 		$image = new ImageUploader_Entity_Images();
 		$image->setTitle($data['title']);
 		$image->setUid(UserUtil::getVar('uid'));
-		$image->setOpenly(true);
+		if($data['openly'] == 1)
+			$image->setOpenly(true);
+		else
+			$image->setOpenly(false);
 		$image->setFileextension($imageType);
 		$image->setHeight($size->getHeight());
 		$image->setWidth($size->getWidth());
@@ -82,8 +85,7 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 		
 		//getting id
 		$search = array('title' => $data['title'],
-			'uid' => UserUtil::getVar('uid'),
-			'openly' => true);
+			'uid' => UserUtil::getVar('uid'));
 		$image = $this->entityManager->getRepository('ImageUploader_Entity_Images')->findOneBy($search);
 		
 		

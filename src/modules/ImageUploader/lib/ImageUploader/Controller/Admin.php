@@ -23,7 +23,6 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 		}
 		
 		$this->view->assign('images', ModUtil::apiFunc('ImageUploader', 'File', 'getImages', array('search' => array())));
-		
 		return $this->view->fetch('Admin/View.tpl');
 	}
 	
@@ -33,7 +32,6 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 		if (!SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_ADMIN)) {
 			return LogUtil::registerPermissionError();
 		}
-		
 		
 		$this->view->assign('form', ModUtil::apiFunc('ImageUploader', 'File', 'uploadImage'));
 		
@@ -70,5 +68,32 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 		
 		return System::redirect(ModUtil::url('ImageUploader', 'admin', 'view'));
 	}
+	
+	
+	public function viewFields()
+	{
+		//Security check
+		if (!SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_ADMIN)) {
+			return LogUtil::registerPermissionError();
+		}
+		
+		$fields = $this->entityManager->getRepository('ImageUploader_Entity_Fields')->findAll();
+		$this->view->assign('fields', $fields);
+		
+		return $this->view->fetch('Admin/ViewFields.tpl');
+	}
+	
+	public function addField()
+	{
+		//Security check
+		if (!SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_ADMIN)) {
+			return LogUtil::registerPermissionError();
+		}
+		
+		//Initialise form
+		$form = FormUtil::newForm('ImageUploader', $this);
+		return $form->execute('Admin/AddField.tpl', new ImageUploader_Form_Handler_Admin_AddField());
+	}
+	
 }
 ?>
