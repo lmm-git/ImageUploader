@@ -25,7 +25,7 @@ class ImageUploader_Api_Account extends Zikula_AbstractApi
 			$items[] = array(
 				'url'   => ModUtil::url($this->name, 'user', 'view'),
 				'module'=> $this->name,
-				'title' => $this->__('View avaiable pictures'),
+				'title' => $this->__('View available pictures'),
 				'icon'  => 'admin.png'
 			);
 			
