@@ -31,8 +31,16 @@ class ImageUploader_HookHandler_Filter extends Zikula_Hook_AbstractHandler
 				
 				if($image['id'] != '')
 				{
-					$html = '<a href="' . ModUtil::url('ImageUploader', 'user', 'displayImageByHeight', array('height' => -1, 'id' => $image['id'])) . '" rel="imageviewer" title="' . $tags['title'] . '">';
-					$html .= '<img src="' . ModUtil::url('ImageUploader', 'user', 'displayImageByHeight', array('height' => 250, 'id' => $image['id'])) . '" title="' . $tags['title'] . '"/>';
+					if($tags['standardWith'] == '' && is_float($tags['standardWith']))
+						$tags['standardWith'] = 450;
+					if($tags['standardHeight'] == '' && is_float($tags['standardHeight']))
+						$tags['standardHeight'] = 250;
+					if($tags['fullWith'] == '' && is_float($tags['fullWith']))
+						$tags['fullWith'] = -1;
+					if($tags['fullHeight'] == '' && is_float($tags['fullHeight']))
+						$tags['fullHeight'] = -1;
+					$html = '<a href="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['fullHeight'], 'width' => $tags['fullWidth'], 'id' => $image['id'])) . '" rel="imageviewer" title="' . $tags['title'] . '">';
+					$html .= '<img src="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['standardHeight'], 'width' => $tags['standardWidth'], 'id' => $image['id'])) . '" title="' . $tags['title'] . '"/>';
 					$html .= '</a>';
 					$text = str_replace('$$' . $textExploded[$i] . '$$', $html, $text);
 					PageUtil::addVar('javascript', 'imageviewer');

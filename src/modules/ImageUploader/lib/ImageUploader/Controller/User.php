@@ -18,7 +18,7 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 	* @author Leonard Marschke
 	* @version 1.0
 	*/
-	public function displayImageByHeight()
+	public function display()
 	{
 		//Security check
 		if (!SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_READ)) {
@@ -26,6 +26,7 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 		}
 		
 		$height = FormUtil::getPassedValue('height', false, 'GET');
+		$width = FormUtil::getPassedValue('width', false, 'GET');
 		$id = FormUtil::getPassedValue('id', false, 'GET');
 		
 		if(!$height || !$id)
@@ -52,8 +53,10 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 				$imagine = new Imagine\Gd\Imagine();
 				$image = $imagine->open($imagepath);
 				$size = $image->getSize();
-				$width = floor($size->getWidth() * ($height / $size->getHeight()));
-				$thumbnail = $image->thumbnail(new Imagine\Image\Box($width, $height));
+				$widthNew = floor($size->getWidth() * ($height / $size->getHeight()));
+				if($widthNew > $width)
+					$height = floor($size->getHeight() * ($width / $size->getHeight()));
+				$thumbnail = $image->thumbnail(new Imagine\Image\Box($widthNew, $height));
 				$thumbnail->save($filepath);
 			}
 			echo readfile($filepath);
