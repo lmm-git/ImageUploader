@@ -9,7 +9,7 @@
 	<legend>{gt text='New field'}</legend>
 
 	<div class="z-formrow">
-		{formlabel for="fid" __text='Id of the textarea (case sensitive)' mandatorysym=true}
+		{formlabel for="fid" __text='Id of the textarea (case sensitive | only beginning possible)' mandatorysym=true}
 		{formtextinput id="fid" maxLength="255" mandatory=true text=$value.fid}
 	</div>
 
