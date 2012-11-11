@@ -46,7 +46,7 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 		
 		if($height < $imageDB['height'] && $height != -1)
 		{
-			$filepath = ModUtil::getVar('ImageUploader', 'storePath') . 'generated/' . $imageDB['id'] . '_H_' . $height . '.' . $imageTypeArray[1];
+			$filepath = ModUtil::getVar('ImageUploader', 'storePath') . 'generated/' . $imageDB['id'] . '_H_' . $height . '_W_' . $width . '.' . $imageTypeArray[1];
 		
 			if(!file_exists($filepath))
 			{

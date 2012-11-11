@@ -31,13 +31,13 @@ class ImageUploader_HookHandler_Filter extends Zikula_Hook_AbstractHandler
 				
 				if($image['id'] != '')
 				{
-					if($tags['standardWidth'] == '' || !is_float($tags['standardWidth']))
+					if($tags['standardWidth'] == '')
 						$tags['standardWidth'] = 450;
-					if($tags['standardHeight'] == '' || !is_float($tags['standardHeight']))
+					if($tags['standardHeight'] == '')
 						$tags['standardHeight'] = 250;
-					if($tags['fullWith'] == '' || !is_float($tags['fullWith']))
+					if($tags['fullWith'] == '')
 						$tags['fullWith'] = -1;
-					if($tags['fullHeight'] == '' || !is_float($tags['fullHeight']))
+					if($tags['fullHeight'] == '')
 						$tags['fullHeight'] = -1;
 					$html = '<a href="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['fullHeight'], 'width' => $tags['fullWidth'], 'id' => $image['id'])) . '" rel="imageviewer" title="' . $tags['title'] . '">';
 					$html .= '<img src="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['standardHeight'], 'width' => $tags['standardWidth'], 'id' => $image['id'])) . '" title="' . $tags['title'] . '"/>';
