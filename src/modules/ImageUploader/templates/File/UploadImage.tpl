@@ -4,7 +4,7 @@
 
 
 <fieldset>
-	<legend>{gt text='Upload a image'}</legend>
+	<legend>{gt text='Upload an image'}</legend>
 
 	<div class="z-formrow">
 		{formlabel for="title" __text='Title of picture' mandatorysym=true}
