@@ -7,7 +7,7 @@
 	{else}
 		style="max-width: 100%;" 
 	{/if}
-	src="{modurl modname='ImageUploader' type='user' func='displayImageByHeight' height='200' width='500' id=$image.id}" alt="" title="{$image.title}" />
+	src="{modurl modname='ImageUploader' type='user' func='display' height='200' width='500' id=$image.id}" alt="" title="{$image.title}" />
 </div>
 {/foreach}
 <div class="z-clearfix"></div>
