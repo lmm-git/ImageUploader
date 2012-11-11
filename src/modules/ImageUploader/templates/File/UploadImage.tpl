@@ -4,7 +4,7 @@
 
 
 <fieldset>
-	<legend>{gt text='Upload an image'}</legend>
+	<legend>{gt text='Upload a image'}</legend>
 
 	<div class="z-formrow">
 		{formlabel for="title" __text='Title of picture' mandatorysym=true}
@@ -14,6 +14,11 @@
 	<div class="z-formrow">
 		{formlabel for="image" __text='Choose your picture' mandatorysym=true}
 		{formuploadinput id="image" mandatory=true}
+	</div>
+
+	<div class="z-formrow">
+		{formlabel for="openly" __text='Should this picture usable for all users?'}
+		{formcheckbox id="openly"}
 	</div>
 
 </fieldset>
