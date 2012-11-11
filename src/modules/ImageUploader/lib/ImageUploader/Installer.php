@@ -90,6 +90,9 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 		DoctrineHelper::dropSchema($this->entityManager, array(
 			'ImageUploader_Entity_Images'
 		));
+		DoctrineHelper::dropSchema($this->entityManager, array(
+				'ImageUploader_Entity_Fields'
+		));
 		
 		HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles());
 		
