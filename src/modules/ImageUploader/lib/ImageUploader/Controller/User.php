@@ -26,7 +26,7 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 		}
 		
 		$height = FormUtil::getPassedValue('height', false, 'GET');
-		$width = FormUtil::getPassedValue('width', false, 'GET');
+		$width = FormUtil::getPassedValue('width', -1, 'GET');
 		$id = FormUtil::getPassedValue('id', false, 'GET');
 		
 		if(!$height || !$id)
@@ -54,8 +54,8 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 				$image = $imagine->open($imagepath);
 				$size = $image->getSize();
 				$widthNew = floor($size->getWidth() * ($height / $size->getHeight()));
-				if($widthNew > $width)
-					$height = floor($size->getHeight() * ($width / $size->getHeight()));
+				if($widthNew > $width && $width > 0)
+					$height = floor($size->getHeight() * ($width / $size->getWidth()));
 				$thumbnail = $image->thumbnail(new Imagine\Image\Box($widthNew, $height));
 				$thumbnail->save($filepath);
 			}
