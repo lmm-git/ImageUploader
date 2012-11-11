@@ -30,7 +30,7 @@ class ImageUploader_Listeners
 			return;
 		}
 
-		if(SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_ADD)
+		if(SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_ADD))
 		{
 			
 			$view = Zikula_View::getInstance('ImageUploader');
