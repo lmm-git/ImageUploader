@@ -3,12 +3,17 @@
 	{assign var='addButton' value=true}
 	<!--Adding ImageUploader support to field {$field.fid}-->
 	<script type="text/javascript">
-		jQuery('#{{$field.fid}}').focus(function () {
-			jQuery('#ImageUploader_InsertImage').fadeIn(1000);
-			textarea = document.getElementById('{{$field.fid}}');
-		});
-		jQuery('#{{$field.fid}}').blur(function () {
-			jQuery('#ImageUploader_InsertImage').fadeOut(1000);
+		jQuery('[id^={{$field.fid}}]').each(function () {
+			if(jQuery('textarea#' + jQuery(this).attr('id')).length > 0)
+			{
+				jQuery(this).focus(function () {
+					jQuery('#ImageUploader_InsertImage').fadeIn(1000);
+					textarea = document.getElementById(jQuery(this).attr('id'));
+				});
+				jQuery(this).blur(function () {
+					jQuery('#ImageUploader_InsertImage').fadeOut(1000);
+				});
+			}
 		});
 	</script>
 {/foreach}
