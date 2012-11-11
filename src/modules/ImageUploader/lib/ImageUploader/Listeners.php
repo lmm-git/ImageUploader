@@ -30,22 +30,25 @@ class ImageUploader_Listeners
 			return;
 		}
 
-		$view = Zikula_View::getInstance('ImageUploader');
-
-		$modname = ModUtil::getName();
-		$func = FormUtil::getPassedValue('func', null, 'GET', FILTER_SANITIZE_STRING);
-		$type = FormUtil::getPassedValue('type', null, 'GET', FILTER_SANITIZE_STRING);
-
-		$search = array('module' => strtolower($modname),
-			'type' => strtolower($type),
-			'func' => strtolower($func));
-		$em = ServiceUtil::getService('doctrine.entitymanager');
-		$fields = $em->getRepository('ImageUploader_Entity_Fields')->findBy($search);
-
-		$view->assign('fields', $fields);
-
-		PageUtil::addVar('footer', $view->fetch('Listeners/Coreinit.tpl'));
-
+		if(SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_ADD)
+		{
+			
+			$view = Zikula_View::getInstance('ImageUploader');
+	
+			$modname = ModUtil::getName();
+			$func = FormUtil::getPassedValue('func', null, 'GET', FILTER_SANITIZE_STRING);
+			$type = FormUtil::getPassedValue('type', null, 'GET', FILTER_SANITIZE_STRING);
+	
+			$search = array('module' => strtolower($modname),
+				'type' => strtolower($type),
+				'func' => strtolower($func));
+			$em = ServiceUtil::getService('doctrine.entitymanager');
+			$fields = $em->getRepository('ImageUploader_Entity_Fields')->findBy($search);
+	
+			$view->assign('fields', $fields);
+	
+			PageUtil::addVar('footer', $view->fetch('Listeners/Coreinit.tpl'));
+		}
 		return true;
 	}
 }
