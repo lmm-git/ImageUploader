@@ -62,6 +62,8 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 			return LogUtil::registerError($this->__('Opening fileinfo database failed. Please check your server configuration!'));
 		$imageType = finfo_file($finfo, $data['image']['tmp_name'], FILEINFO_MIME_TYPE);
 		$imageTypeArray = explode('/', $imageType);
+		if($imageTypeArray[0] != 'image')
+			return LogUtil::registerError($this->__('You have to upload an image file!'));
 		finfo_close($finfo);
 		
 		//get height and width
