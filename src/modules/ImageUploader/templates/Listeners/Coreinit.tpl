@@ -27,6 +27,8 @@
 		width: 100%; padding-top: 21px;" onclick="ImageUploader_LoadPictures();">{img modname='core' src='folder_images.png' set='icons/large'}</a>
 	</div>
 	<div id="ImageUploader_User_View_Box" style="display: none;">
+		{modurl modname='ImageUploader' type='user' func='addImage' assign='url'}
+		<h3 class="z-warningmsg">{gt text='You can upload images %s here %s.' tag1="<a href=\"`$url`\" target=\"_blank\" onclick=\"defwindowmodal.close();\">" tag2='</a>'}</h3>
 		<div id="ImageUploader_User_View">
 		</div>
 		<h3 class="z-warningmsg">{gt text='Supportet tags are: id - id of picture (inserted autimatically and is mandatory) | title - title of picture (inserted automatically and is mandatory | standardWidth - width in the "img"-tag | standardHeight - height in the "img"-tag | fullWidth - width in the modal box | fullHeight - height in the modal box'}</h3>
