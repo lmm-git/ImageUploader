@@ -25,11 +25,11 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 			return LogUtil::registerPermissionError();
 		}
 		
-		$height = FormUtil::getPassedValue('height', false, 'GET');
+		$height = FormUtil::getPassedValue('height', -1, 'GET');
 		$width = FormUtil::getPassedValue('width', -1, 'GET');
 		$id = FormUtil::getPassedValue('id', false, 'GET');
 		
-		if(!$height || !$id)
+		if(!$id)
 			return LogUtil::registerError('', '', 404);
 		
 		$search = array('id' => $id);
@@ -44,7 +44,7 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 		$imageTypeArray = explode('/', $imageDB['fileextension']);
 		$imagepath = ModUtil::getVar('ImageUploader', 'storePath') . $imageDB['id'] . '.' . $imageTypeArray[1];
 		
-		if($height < $imageDB['height'] && $height != -1)
+		if($height < $imageDB['height'] && ($height > 0 || $width > 0))
 		{
 			$filepath = ModUtil::getVar('ImageUploader', 'storePath') . 'generated/' . $imageDB['id'] . '_H_' . $height . '_W_' . $width . '.' . $imageTypeArray[1];
 		
@@ -53,8 +53,11 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 				$imagine = new Imagine\Gd\Imagine();
 				$image = $imagine->open($imagepath);
 				$size = $image->getSize();
-				$widthNew = floor($size->getWidth() * ($height / $size->getHeight()));
-				if($widthNew > $width && $width > 0)
+				if($height > 0)
+					$widthNew = floor($size->getWidth() * ($height / $size->getHeight()));
+				else
+					$widthNew = $width;
+				if($widthNew >= $width && $width > 0)
 					$height = floor($size->getHeight() * ($width / $size->getWidth()));
 				$thumbnail = $image->thumbnail(new Imagine\Image\Box($widthNew, $height));
 				$thumbnail->save($filepath);

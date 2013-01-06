@@ -31,10 +31,13 @@ class ImageUploader_HookHandler_Filter extends Zikula_Hook_AbstractHandler
 				
 				if($image['id'] != '')
 				{
-					if($tags['standardWidth'] == '')
+					$oldtags = $tags;
+					if($tags['standardWidth'] == '' && $tags['standardHeight'] == '')
 						$tags['standardWidth'] = 450;
-					if($tags['standardHeight'] == '')
+					if($oldtags['standardHeight'] == '' && $oldtags['standardWidth'] == '')
 						$tags['standardHeight'] = 250;
+					elseif($tags['standardWidth'] != '')
+						$tags['standardHeight'] = -1;
 					if($tags['fullWith'] == '')
 						$tags['fullWith'] = -1;
 					if($tags['fullHeight'] == '')
