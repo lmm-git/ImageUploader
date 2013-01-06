@@ -30,8 +30,7 @@ class ImageUploader_Controller_Ajax extends Zikula_AbstractController
 		$qb = $em->createQueryBuilder();
 		$qb->select('p')
 		   ->from('ImageUploader_Entity_Images', 'p')
-		   ->where('p.openly = true')
-		   ->where('p.uid != ' . UserUtil::getVar('uid'));
+		   ->where('p.openly = true AND p.uid != ' . UserUtil::getVar('uid'));
 		$images2 = $qb->getQuery()->getArrayResult();
 		
 		$this->view->assign('images', array_merge($images1, $images2))
