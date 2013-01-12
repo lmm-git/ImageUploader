@@ -42,7 +42,7 @@ class ImageUploader_HookHandler_Filter extends Zikula_Hook_AbstractHandler
 						$tags['fullWith'] = -1;
 					if($tags['fullHeight'] == '')
 						$tags['fullHeight'] = -1;
-					$html = '<a href="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['fullHeight'], 'width' => $tags['fullWidth'], 'id' => $image['id'])) . '" rel="imageviewer" title="' . $tags['title'] . '">';
+					$html = '<a href="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['fullHeight'], 'width' => $tags['fullWidth'], 'id' => $image['id'])) . '" rel="imageviewer" title="' . $tags['title'] . '" class="ImageUploaderPicture">';
 					$html .= '<img src="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['standardHeight'], 'width' => $tags['standardWidth'], 'id' => $image['id'])) . '" title="' . $tags['title'] . '"/>';
 					$html .= '</a>';
 					$text = str_replace('$$' . $textExploded[$i] . '$$', $html, $text);
