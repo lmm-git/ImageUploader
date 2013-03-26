@@ -2,13 +2,33 @@
 /**
  * ImageUploader
  *
- * @copyright  (c) Leonard Marschke
  * @license    GPLv3
  * @package    ImageUploader/Installer
  */
 class ImageUploader_Installer extends Zikula_AbstractInstaller
 {
 
+	/**
+	 * Upload directory creation
+	 */
+	private function createUploadDirs()
+	{
+		// upload dir creation
+		$dir = $this->getVar('upload_folder');
+	
+		if (mkdir($dir, System::getVar('system.chmod_dir', 0777), true)) {
+			LogUtil::registerStatus($this->__f('Created the file storage directory successfully at [%s]. Be sure that this directory is accessible via web and writable by the webserver.', $dir));
+		}
+		
+		$dir = $this->getVar('upload_folder') . '/generated';
+		
+		if (mkdir($dir, System::getVar('system.chmod_dir', 0777), true)) {
+			LogUtil::registerStatus($this->__f('Created the file storage directory successfully at [%s]. Be sure that this directory is accessible via web and writable by the webserver.', $dir));
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Provides an array containing default values for module variables (settings).
 	 *
@@ -17,8 +37,8 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 	 */
 	protected function getDefaultModVars()
 	{
-		return array('storePath' => 'userdata/ImageUploader/',
-			'imageWidth' => 250);
+		return array('imageWidth' => 250,
+			'uploadFolder' => FileUtil::getDataDirectory() . '/ImageUploader');
 	}
 
 	/**
@@ -30,6 +50,7 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 	public function install()
 	{
 		$this->setVars($this->getDefaultModVars());
+		$this->createUploadDirs();
 		
 		//Install databases
 		try {
@@ -91,7 +112,7 @@ class ImageUploader_Installer extends Zikula_AbstractInstaller
 			'ImageUploader_Entity_Images'
 		));
 		DoctrineHelper::dropSchema($this->entityManager, array(
-				'ImageUploader_Entity_Fields'
+			'ImageUploader_Entity_Fields'
 		));
 		
 		HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles());
