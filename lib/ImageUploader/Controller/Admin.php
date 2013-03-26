@@ -8,13 +8,28 @@
  */
 class ImageUploader_Controller_Admin extends Zikula_AbstractController
 {
+	
+	/**
+	 * main function (dummy)
+	 *
+	 * @version 1.0
+	 * @return redirection to admin/view
+	 */
 	public function main()
 	{
+		//redirect to Admin->view
 		System::redirect(ModUtil::url('ImageUploader', 'admin', 'view'));
+		//shutdown system to prevent any unnecessary html output
 		System::shutdown();
 		return true;
 	}
 	
+	/**
+	 * shows all uploaded images from every user
+	 *
+	 * @version 1.0
+	 * @return string: template admin/View.tpl
+	 */
 	public function view()
 	{
 		//Security check
@@ -26,6 +41,12 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 		return $this->view->fetch('Admin/View.tpl');
 	}
 	
+	/**
+	 * Admin upload function. This interface is like the users upload function.
+	 *
+	 * @version 1.0
+	 * @return string: template Admin/Upload.tpl
+	 */
 	public function upload()
 	{
 		//Security check
@@ -38,6 +59,13 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 		return $this->view->fetch('Admin/Upload.tpl');
 	}
 	
+	/**
+	 * Admin remove function.
+	 *
+	 * @version 0.2
+	 * @return redirection to admin->view
+	 * @todo Outsourcing removing section to API (user can delete own pictures)
+	 */
 	public function remove()
 	{
 		//Security check
@@ -45,6 +73,7 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 			return LogUtil::registerPermissionError();
 		}
 		
+		//check for valid id
 		$id = FormUtil::getPassedValue('id', false, 'GET');
 		
 		if(!$id)
@@ -69,7 +98,12 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 		return System::redirect(ModUtil::url('ImageUploader', 'admin', 'view'));
 	}
 	
-	
+	/**
+	 * View field function. Shows a list of fields activated for using with ImageUploader
+	 *
+	 * @version 1.0
+	 * @return string: template Admin/ViewFields.tpl
+	 */
 	public function viewFields()
 	{
 		//Security check
@@ -83,6 +117,12 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 		return $this->view->fetch('Admin/ViewFields.tpl');
 	}
 	
+	/**
+	 * Add a new field or modify a field.
+	 *
+	 * @version 1.0
+	 * @return string: form: template Admin/AddField.tpl
+	 */
 	public function addField()
 	{
 		//Security check
@@ -96,4 +136,3 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 	}
 	
 }
-?>
