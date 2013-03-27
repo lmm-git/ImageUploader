@@ -23,7 +23,7 @@ class ImageUploader_HookHandler_Filter extends Zikula_Hook_AbstractHandler
 				$tag = explode('=', $tag);
 				$tags[$tag[0]] = $tag[1];
 			}
-			unset($tagstp);
+			unset($tagstmp);
 			if($tags['id'] != '' && $tags['title'] != '')
 			{
 				$em = ServiceUtil::getService('doctrine.entitymanager');
@@ -49,6 +49,7 @@ class ImageUploader_HookHandler_Filter extends Zikula_Hook_AbstractHandler
 					PageUtil::addVar('javascript', 'imageviewer');
 				}
 			}
+			unset($tags);
 		}
 		
 		$hook->setData($text);
