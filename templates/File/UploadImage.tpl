@@ -24,7 +24,7 @@
 </fieldset>
 
 <div class="z-formbuttons z-buttons">
-	{formbutton class="z-bt-ok z-btgreen" commandName="upload" __text="Upload"}
+	{formbutton class="z-bt-ok z-btgreen" commandName="upload" __text="Upload" onclick="this.style.display = 'none';"}
 	{formbutton class="z-bt-cancel z-btred" commandName="cancel" __text="Cancel"}
 </div>
 
