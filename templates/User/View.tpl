@@ -1,4 +1,3 @@
-{pageaddvar name="stylesheet" value="modules/EventManager/style/EventManager_wizard_step4.css"}
 {pageaddvar name="javascript" value="modules/ImageUploader/javascript/User/View.js"}
 {pageaddvar name="javascript" value="zikula"}
 {pageaddvar name="javascript" value="jquery"}

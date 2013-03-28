@@ -66,6 +66,13 @@ class ImageUploader_Entity_Images extends Zikula_EntityAccess
 	private $width;
 
 	/**
+	 * The following are annotations which define the removed field.
+	 *
+	 * @ORM\Column(type="boolean")
+	 */
+	private $removed;
+
+	/**
 	 * The following are annotations which define the config field.
 	 * @ORM\Column(type="array")
 	 */
@@ -107,6 +114,11 @@ class ImageUploader_Entity_Images extends Zikula_EntityAccess
 		return $this->width;
 	}
 
+	public function getRemoved()
+	{
+		return $this->removed;
+	}
+
 	public function getConfig()
 	{
 		return $this->config;
@@ -140,6 +152,11 @@ class ImageUploader_Entity_Images extends Zikula_EntityAccess
 	public function setWidth($width)
 	{
 		$this->width = $width;
+	}
+
+	public function setRemoved($removed)
+	{
+		$this->removed = $removed;
 	}
 
 	public function setConfig($config)

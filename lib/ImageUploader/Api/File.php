@@ -45,8 +45,40 @@
 	{
 		if(!is_array($args['search']))
 			return LogUtil::registerError($this->__('You have to pass a search array'));
+		$args['search']['removed'] = false;
 		
 		return $this->entityManager->getRepository('ImageUploader_Entity_Images')->findBy($args['search']);
+	}
+	
+	/**
+	* @brief Provides deletion of one image
+	*
+	* @return boolean
+	* @arg $id: id of image
+	*
+	* This function provides the complete deletion of images
+	*
+	* @version 1.0
+	*/
+	public function removeComplete($args)
+	{
+		$image = $this->entityManager->find('ImageUploader_Entity_Images', $args['id']);
+		if($image['id'] == '')
+			return LogUtil::registerError('You must pass a valid id!');
+		
+		//Removing pictures
+		$imageTypeArray = explode('/', $image['fileextension']);
+		$imagepath = ModUtil::getVar('ImageUploader', 'storePath') . $image['id'] . '.' . $imageTypeArray[1];
+		unlink($imagepath);
+		foreach(glob(ModUtil::getVar('ImageUploader', 'storePath') . 'generated/' . $image['id'] . '*.' . $imageTypeArray[1]) as $path)
+		{
+			unlink($path);
+		}
+		//setting DB-entry to removed
+		$image->setRemoved(true);
+		$this->entityManager->persist($image);
+		$this->entityManager->flush();
+		return true;
 	}
 }
 

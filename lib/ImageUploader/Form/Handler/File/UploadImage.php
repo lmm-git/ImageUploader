@@ -49,7 +49,8 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 		
 		//checking for existant entry
 		$search = array('title' => $data['title'],
-			'uid' => UserUtil::getVar('uid'));
+			'uid' => UserUtil::getVar('uid'),
+			'removed' => false);
 		$image = $this->entityManager->getRepository('ImageUploader_Entity_Images')->findOneBy($search);
 		
 		if($image['id'] != '')
@@ -82,6 +83,7 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 		$image->setFileextension($imageType);
 		$image->setHeight($size->getHeight());
 		$image->setWidth($size->getWidth());
+		$image->setRemoved(false);
 		$this->entityManager->persist($image);
 		$this->entityManager->flush();
 		

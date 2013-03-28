@@ -32,7 +32,8 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 		if(!$id)
 			return LogUtil::registerError('', '', 404);
 		
-		$search = array('id' => $id);
+		$search = array('id' => $id,
+			'removed' => false);
 		$imageDB = $this->entityManager->getRepository('ImageUploader_Entity_Images')->findOneBy($search);
 		
 		if($imageDB['id'] == '')
@@ -113,6 +114,44 @@ class ImageUploader_Controller_User extends Zikula_AbstractController
 		$this->view->assign('form', ModUtil::apiFunc('ImageUploader', 'File', 'uploadImage'));
 		
 		return $this->view->fetch('User/AddImage.tpl');
+	}
+
+	/**
+	* @brief Provides removing of images
+	*
+	* @return string HTML
+	*
+	* This function provides an handler to add a image
+	*
+	* @author Leonard Marschke
+	* @version 1.0
+	*/
+	public function removeImage()
+	{
+		//Security check
+		if (!SecurityUtil::checkPermission('ImageUploader::', '::', ACCESS_ADD)) {
+			return LogUtil::registerPermissionError();
+		}
+		
+		$id = FormUtil::getPassedValue('id', null, 'GET');
+		if($id == null) {
+			return LogUtil::registerError($this->__('Plaese pass a id!'));
+		}
+		
+		$image = $this->entityManager->getRepository('ImageUploader_Entity_Images')->findOneBy(
+			array(
+				'uid' => UserUtil::getVar('uid'),
+				'id' => $id
+			)
+		);
+		
+		if($image['id'] == '') {
+			return LogUtil::registerError($this->__('Please pass a valid, for you accessable id.'));
+		}
+		
+		ModUtil::apiFunc($this->name, 'File', 'removeComplete', array('id' => $image['id']));
+		
+		return System::redirect(ModUtil::url($this->name, 'user', 'view'));
 	}
 
 }
