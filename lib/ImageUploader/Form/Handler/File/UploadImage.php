@@ -92,8 +92,8 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 		
 		
 		if(!copy($data['image']['tmp_name'], ModUtil::getVar('ImageUploader', 'storePath') . $image['id'] . '.' . $imageTypeArray[1]))
-			return LogUtil::registerError($this->__('Problem while moving image... Please try again and check your data file!'));
-		
+			return LogUtil::registerError($this->__('Problem while moving image... Please try again and check your data file! Also you should check if you have webspace left.'));
+		unlink($data['image']['tmp_name']);
 		LogUtil::registerStatus($this->__('Image successfully added!'));
 		
 		if(FormUtil::getPassedValue('type') == 'admin')
