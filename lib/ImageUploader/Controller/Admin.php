@@ -120,4 +120,3 @@ class ImageUploader_Controller_Admin extends Zikula_AbstractController
 	}
 	
 }
-?>
