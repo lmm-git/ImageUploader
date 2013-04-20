@@ -32,18 +32,21 @@ class ImageUploader_HookHandler_Filter extends Zikula_Hook_AbstractHandler
 				if($image['id'] != '')
 				{
 					$oldtags = $tags;
-					if($tags['standardWidth'] == '' && $tags['standardHeight'] == '')
-						$tags['standardWidth'] = 450;
-					if($oldtags['standardHeight'] == '' && $oldtags['standardWidth'] == '')
+					if($oldtags['standardHeight'] == '' && $oldtags['standardWidth'] == '') {
 						$tags['standardHeight'] = 250;
-					elseif($tags['standardWidth'] != '')
-						$tags['standardHeight'] = -1;
-					if($tags['fullWith'] == '')
-						$tags['fullWith'] = -1;
-					if($tags['fullHeight'] == '')
-						$tags['fullHeight'] = -1;
+						$tags['standardWidth'] = round($image->getWidth() * ($tags['standardHeight'] / $image->getHeight()));
+					} else {
+						if($tags['standardHeight'] == '') {
+							$tags['standardHeight'] = round($image->getHeight() * ($tags['standardWidth'] / $image->getWidth()));
+						}
+						if($tags['standardWidth'] == '') {
+							$tags['standardWidth'] = round($image->getWidth() * ($tags['standardHeight'] / $image->getHeight()));
+						}
+						
+						
+					}
 					$html = '<a href="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['fullHeight'], 'width' => $tags['fullWidth'], 'id' => $image['id'])) . '" rel="imageviewer" title="' . $tags['title'] . '" class="ImageUploaderPicture">';
-					$html .= '<img src="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['standardHeight'], 'width' => $tags['standardWidth'], 'id' => $image['id'])) . '" title="' . $tags['title'] . '"/>';
+					$html .= '<img src="' . ModUtil::url('ImageUploader', 'user', 'display', array('height' => $tags['standardHeight'], 'width' => $tags['standardWidth'], 'id' => $image['id'])) . '" title="' . $tags['title'] . '" height="' . $tags['standardHeight'] . '" width="' . $tags['standardWidth'] .'"/>';
 					$html .= '</a>';
 					$text = str_replace('$$' . $textExploded[$i] . '$$', $html, $text);
 					PageUtil::addVar('javascript', 'imageviewer');
