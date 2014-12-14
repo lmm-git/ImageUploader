@@ -81,8 +81,14 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 		else
 			$image->setOpenly(false);
 		$image->setFileextension($imageType);
-		$image->setHeight($size->getHeight());
-		$image->setWidth($size->getWidth());
+		$exif = exif_read_data($data['image']['tmp_name']);
+		if($exif['Orientation'] <= 4) {
+			$image->setHeight($size->getHeight());
+			$image->setWidth($size->getWidth());
+		} else {
+			$image->setHeight($size->getWidth());
+			$image->setWidth($size->getHeight());
+		}
 		$image->setRemoved(false);
 		$this->entityManager->persist($image);
 		$this->entityManager->flush();
@@ -92,6 +98,33 @@ class ImageUploader_Form_Handler_File_UploadImage extends Zikula_Form_AbstractHa
 			'uid' => UserUtil::getVar('uid'));
 		$image = $this->entityManager->getRepository('ImageUploader_Entity_Images')->findOneBy($search);
 		
+		$imagine = new Imagine\Gd\Imagine();
+		$newimage = $imagine->open($data['image']['tmp_name']);
+		
+		switch ($exif['Orientation']) {
+			case 2:
+				$newimage->mirror();
+				break;
+			case 3:
+				$newimage->rotate(180);
+				break;
+			case 4:
+				$newimage->rotate(180)->mirror();
+				break;
+			case 5:
+				$newimage->rotate(90)->mirror();
+				break;
+			case 6:
+				$newimage->rotate(90);
+				break;
+			case 7:
+				$newimage->rotate(-90)->mirror();
+				break;
+			case 8:
+				$newimage->rotate(-90);
+				break;
+		}
+		$newimage->save(ModUtil::getVar('ImageUploader', 'storePath') . $image['id'] . '.' . $imageTypeArray[1]);
 		
 		if(!copy($data['image']['tmp_name'], ModUtil::getVar('ImageUploader', 'storePath') . $image['id'] . '.' . $imageTypeArray[1]))
 			return LogUtil::registerError($this->__('Problem while moving image... Please try again and check your data file! Also you should check if you have webspace left.'));
